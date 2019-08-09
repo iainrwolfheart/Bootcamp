@@ -1,0 +1,554 @@
+SQLcl: Release 4.2.0.16.153.2014 RC on Thu May 16 05:10:44 2019
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Username? (''?) hr
+Password? (**********?) ******
+Last Successful login time: Thu May 16 2019 05:10:53 -04:00
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+
+
+SQL> create table My Friends(Name char(10), Age number(3), Hometown char(20);
+
+Error starting at line : 1 in command -
+create table My Friends(Name char(10), Age number(3), Hometown char(20)
+Error report -
+ORA-00922: missing or invalid option
+00922. 00000 -  "missing or invalid option"
+*Cause:    
+*Action:
+SQL> create table My Friends(
+
+
+SQL> create table My Friends (Name char(10), Age number(3), Hometown char(20));
+
+Error starting at line : 1 in command -
+create table My Friends (Name char(10), Age number(3), Hometown char(20))
+Error report -
+ORA-00922: missing or invalid option
+00922. 00000 -  "missing or invalid option"
+*Cause:    
+*Action:
+SQL> 
+
+
+SQL> create table My Friends (Name char(10), Age number(3), Hometown char(20));
+
+Error starting at line : 1 in command -
+create table My Friends (Name char(10), Age number(3), Hometown char(20))
+Error report -
+ORA-00922: missing or invalid option
+00922. 00000 -  "missing or invalid option"
+*Cause:    
+*Action:
+SQL> create table My Friends;
+
+Error starting at line : 1 in command -
+create table My Friends
+Error report -
+ORA-00922: missing or invalid option
+00922. 00000 -  "missing or invalid option"
+*Cause:    
+
+
+SQL> create table my_friends(name char(10), age number(3), hometown char(20));
+Table MY_FRIENDS created.
+
+SQL> insert into my_friends values('Iain',34,'Tetbury');
+
+1 row inserted.
+
+SQL> select * from my_friends;
+
+NAME              AGE HOMETOWN            
+---------- ---------- --------------------
+Iain               34 Tetbury             
+
+SQL> create table tesco(product char(20), price number(7), quantity number(5));
+
+Table TESCO created.
+
+SQL> insert into tesco values('eggs', 1.29, 50);
+
+1 row inserted.
+
+SQL> insert into tesco values('organic baked beans', 0.69, 22);
+
+1 row inserted.
+
+SQL> select * from tesco;
+
+PRODUCT                   PRICE   QUANTITY
+-------------------- ---------- ----------
+eggs                          1         50
+organic baked beans           1         22
+
+SQL> insert into tesco values('wholegrain bread', 0.89, 3);
+
+1 row inserted.
+
+SQL> select * from tesco;
+
+PRODUCT                   PRICE   QUANTITY
+-------------------- ---------- ----------
+eggs                          1         50
+organic baked beans           1         22
+wholegrain bread              1          3
+
+SQL> create table school(name char(20), marks number(3));
+
+Table SCHOOL created.
+
+SQL> insert into school values('Bob', 84);
+
+1 row inserted.
+
+SQL> insert into school values('Jen', 92);
+
+1 row inserted.
+
+SQL> select name, marks/150*100 from school;
+
+NAME                 MARKS/150*100
+-------------------- -------------
+Bob                             56
+Jen                     61.3333333
+
+SQL> insert into school values('Derek', 43);
+
+1 row inserted.
+
+SQL> select marks from school;
+
+     MARKS
+----------
+        84
+        92
+        43
+
+SQL> select marks/150*100 from school;
+
+MARKS/150*100
+-------------
+           56
+   61.3333333
+   28.6666667
+
+SQL> select names, marks/150*100 from school;
+
+Error starting at line : 1 in command -
+select names, marks/150*100 from school
+Error at Command Line : 1 Column : 8
+Error report -
+SQL Error: ORA-00904: "NAMES": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+SQL> select name, marks/150*100 from school;
+
+NAME                 MARKS/150*100
+-------------------- -------------
+Bob                             56
+Jen                     61.3333333
+Derek                   28.6666667
+
+Error starting at line : 1 in command -
+create table asda2
+Error report -
+ORA-00906: missing left parenthesis
+00906. 00000 -  "missing left parenthesis"
+*Cause:    
+*Action:
+SQL> create table asda2(product char(15), price_purchased number(3,2), price_sold number(3,2), qty_purchased number(3), qty_sold number(3));
+
+Table ASDA2 created.
+
+SQL> insert into asda2 values('7up', 1.75, 2.00, 15, 10);
+
+1 row inserted.
+
+SQL> insert into asda2 values('cola', 2.50, 3.50, 20, 15);
+
+1 row inserted.
+
+
+SQL> select * from asda2;
+PRODUCT         PRICE_PURCHASED PRICE_SOLD QTY_PURCHASED   QTY_SOLD
+--------------- --------------- ---------- ------------- ----------
+7up                        1.75          2            15         10
+cola                        2.5        3.5            20         15
+
+SQL> select product, price_purchased*qty_purchased as total_order, price_sold*qty_sold as total_sales, (price_sold*qty_sold)-(price_purchased*qty_purchased) as profit from asda2;
+
+PRODUCT         TOTAL_ORDER TOTAL_SALES     PROFIT
+--------------- ----------- ----------- ----------
+7up                   26.25          20      -6.25
+cola                     50        52.5        2.5
+
+SQL> drop table asda;
+
+Table ASDA dropped.
+
+SQL> insert into asda2 values('irn bru', 1.10, 2.20, 30, 27);
+
+1 row inserted.
+
+
+SQL> select product, price_purchased*qty_purchased as total_order, price_sold*qty_sold as total_sales, (price_sold*qty_sold)-(price_purchased*qty_purchased) as profit from asda2;
+
+PRODUCT         TOTAL_ORDER TOTAL_SALES     PROFIT
+--------------- ----------- ----------- ----------
+7up                   26.25          20      -6.25
+cola                     50        52.5        2.5
+irn bru                  33        59.4       26.4
+
+SQL> select * from asda2 where product=cola;
+
+Error starting at line : 1 in command -
+select * from asda2 where product=cola
+Error at Command Line : 1 Column : 35
+Error report -
+SQL Error: ORA-00904: "COLA": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+SQL> select * asda2 where product='7up';
+
+Error starting at line : 1 in command -
+select * asda2 where product='7up'
+Error at Command Line : 1 Column : 10
+Error report -
+SQL Error: ORA-00923: FROM keyword not found where expected
+00923. 00000 -  "FROM keyword not found where expected"
+*Cause:    
+*Action:
+SQL> select * from asda2;
+
+PRODUCT         PRICE_PURCHASED PRICE_SOLD QTY_PURCHASED   QTY_SOLD
+--------------- --------------- ---------- ------------- ----------
+7up                        1.75          2            15         10
+cola                        2.5        3.5            20         15
+irn bru                     1.1        2.2            30         27
+
+SQL> select * from asda2 where qty_purchased>18;
+
+PRODUCT         PRICE_PURCHASED PRICE_SOLD QTY_PURCHASED   QTY_SOLD
+--------------- --------------- ---------- ------------- ----------
+cola                        2.5        3.5            20         15
+irn bru                     1.1        2.2            30         27
+
+
+SQL> select * from asda2 where product = 'cola';
+PRODUCT         PRICE_PURCHASED PRICE_SOLD QTY_PURCHASED   QTY_SOLD
+--------------- --------------- ---------- ------------- ----------
+cola                        2.5        3.5            20         15
+
+SQL> select product from asda2 where price_sold>3.00;
+
+PRODUCT        
+---------------
+cola           
+
+SQL> select product, price_purchased*qty_purchased as total_order, price_sold*qty_sold as total_sales, (price_sold*qty_sold)-(price_purchased*qty_purchased) as profit from asda2 where profit>3;
+
+Error starting at line : 1 in command -
+select product, price_purchased*qty_purchased as total_order, price_sold*qty_sold as total_sales, (price_sold*qty_sold)-(price_purchased*qty_purchased) as profit from asda2 where profit>3
+Error at Command Line : 1 Column : 180
+Error report -
+SQL Error: ORA-00904: "PROFIT": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+
+
+SQL> select product, price_purchased*qty_purchased as total_order, price_sold*qty_sold as total_sales, (price_sold*qty_sold)-(price_purchased*qty_purchased) as profit from asda2 where profit >3;
+Error starting at line : 1 in command -
+select product, price_purchased*qty_purchased as total_order, price_sold*qty_sold as total_sales, (price_sold*qty_sold)-(price_purchased*qty_purchased) as profit from asda2 where profit >3
+Error at Command Line : 1 Column : 180
+Error report -
+SQL Error: ORA-00904: "PROFIT": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+
+
+
+
+SQL> select product, price_purchased*qty_purchased as total_order, price_sold*qty_sold as total_sales, (price_sold*  2* ;
+PRODUCT         TOTAL_ORDER TOTAL_SALES     PROFIT
+--------------- ----------- ----------- ----------
+7up                   26.25          20      -6.25
+cola                     50        52.5        2.5
+irn bru                  33        59.4       26.4
+
+
+
+
+SQL> select product, qty_purchased-qty_sold as stock from asda2;
+PRODUCT              STOCK
+--------------- ----------
+7up                      5
+cola                     5
+irn bru                  3
+
+SQL> select product, qty_purchased_qty_sold as stock from asda2 where qty_purchased-qty_sold<5;
+
+Error starting at line : 1 in command -
+select product, qty_purchased_qty_sold as stock from asda2 where qty_purchased-qty_sold<5
+Error at Command Line : 1 Column : 17
+Error report -
+SQL Error: ORA-00904: "QTY_PURCHASED_QTY_SOLD": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+
+
+SQL> select product, qty_purchased-qty_sold as stock from asda2 where qty_purchased-qty_sold<5;
+PRODUCT              STOCK
+--------------- ----------
+irn bru                  3
+
+SQL> create table consultants(RegNo number(2), Name char(10), Client char(10), Subject char(10), Marks number(3);
+
+Error starting at line : 1 in command -
+create table consultants(RegNo number(2), Name char(10), Client char(10), Subject char(10), Marks number(3)
+Error report -
+ORA-00907: missing right parenthesis
+00907. 00000 -  "missing right parenthesis"
+*Cause:    
+
+
+
+SQL> create table consultants(RegNo number(2), Name char(10), Client char(10), Subject char(10), Marks number(3));
+Table CONSULTANTS created.
+
+SQL> insert into consultants values(1, 'A', 'IBM', 'Java', 95);
+
+1 row inserted.
+
+SQL> insert into consultants values(2, 'B', 'ONS', 'Java', 80);
+
+1 row inserted.
+
+SQL> insert into consultants values(3, 'C', 'IBM', 'Python', 90);
+
+1 row inserted.
+
+SQL> insert into consultants values(4, 'D', ONS, 'Python', 95);
+
+Error starting at line : 1 in command -
+insert into consultants values(4, 'D', ONS, 'Python', 95)
+Error at Command Line : 1 Column : 40
+Error report -
+SQL Error: ORA-00984: column not allowed here
+00984. 00000 -  "column not allowed here"
+*Cause:    
+
+
+
+SQL> insert into consultants values(4, 'D', 'ONS', 'Python', 95);
+1 row inserted.
+
+SQL> select * from consultants;
+
+     REGNO NAME       CLIENT     SUBJECT         MARKS
+---------- ---------- ---------- ---------- ----------
+         1 A          IBM        Java               95
+         2 B          ONS        Java               80
+         3 C          IBM        Python             90
+         4 D          ONS        Python             95
+
+SQL> select * from consultants where client='ONS';
+
+     REGNO NAME       CLIENT     SUBJECT         MARKS
+---------- ---------- ---------- ---------- ----------
+         2 B          ONS        Java               80
+         4 D          ONS        Python             95
+
+SQL> select * from consultants where client='IBM' and marks>90;
+
+     REGNO NAME       CLIENT     SUBJECT         MARKS
+---------- ---------- ---------- ---------- ----------
+         1 A          IBM        Java               95
+
+
+
+SQL> select * from consultants where client='IBM' and marks=>90;
+Error starting at line : 1 in command -
+select * from consultants where client='IBM' and marks=>90
+Error at Command Line : 1 Column : 55
+Error report -
+SQL Error: ORA-00920: invalid relational operator
+00920. 00000 -  "invalid relational operator"
+*Cause:    
+
+
+SQL> select * from consultants where client='IBM' and marks>=90;
+     REGNO NAME       CLIENT     SUBJECT         MARKS
+---------- ---------- ---------- ---------- ----------
+         1 A          IBM        Java               95
+         3 C          IBM        Python             90
+
+SQL> select RegNo, marks>90 from consultants where subject=Python;
+
+Error starting at line : 1 in command -
+select RegNo, marks>90 from consultants where subject=Python
+Error at Command Line : 1 Column : 20
+Error report -
+SQL Error: ORA-00923: FROM keyword not found where expected
+00923. 00000 -  "FROM keyword not found where expected"
+*Cause:    
+
+
+SQL> select RegNo, marks>90 as TOP from consultants where subject=Python;
+Error starting at line : 1 in command -
+select RegNo, marks>90 as TOP from consultants where subject=Python
+Error at Command Line : 1 Column : 20
+Error report -
+SQL Error: ORA-00923: FROM keyword not found where expected
+00923. 00000 -  "FROM keyword not found where expected"
+*Cause:    
+
+
+SQL> select RegNo, marks>90 as top from consultants where subject=Python;
+Error starting at line : 1 in command -
+select RegNo, marks>90 as top from consultants where subject=Python
+Error at Command Line : 1 Column : 20
+Error report -
+SQL Error: ORA-00923: FROM keyword not found where expected
+00923. 00000 -  "FROM keyword not found where expected"
+*Cause:    
+*Action:
+SQL> select client from consultant;
+
+Error starting at line : 1 in command -
+select client from consultant
+Error at Command Line : 1 Column : 20
+Error report -
+SQL Error: ORA-00942: table or view does not exist
+00942. 00000 -  "table or view does not exist"
+*Cause:    
+*Action:
+SQL> select * from consultant;
+
+Error starting at line : 1 in command -
+select * from consultant
+Error at Command Line : 1 Column : 15
+Error report -
+SQL Error: ORA-00942: table or view does not exist
+00942. 00000 -  "table or view does not exist"
+*Cause:    
+
+
+SQL> select * from consultants;
+     REGNO NAME       CLIENT     SUBJECT         MARKS
+---------- ---------- ---------- ---------- ----------
+         1 A          IBM        Java               95
+         2 B          ONS        Java               80
+         3 C          IBM        Python             90
+         4 D          ONS        Python             95
+
+SQL> select client from consultants;
+
+CLIENT    
+----------
+IBM       
+ONS       
+IBM       
+ONS       
+
+SQL> select clients and marks>90 from consultants;
+
+Error starting at line : 1 in command -
+select clients and marks>90 from consultants
+Error at Command Line : 1 Column : 16
+Error report -
+SQL Error: ORA-00923: FROM keyword not found where expected
+00923. 00000 -  "FROM keyword not found where expected"
+*Cause:    
+
+
+SQL> select clients from consultants;
+Error starting at line : 1 in command -
+select clients from consultants
+Error at Command Line : 1 Column : 8
+Error report -
+SQL Error: ORA-00904: "CLIENTS": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+SQL> select *  from consultants where client='ONS';
+
+     REGNO NAME       CLIENT     SUBJECT         MARKS
+---------- ---------- ---------- ---------- ----------
+         2 B          ONS        Java               80
+         4 D          ONS        Python             95
+
+SQL> select * from consultants where marks>=85 and client='ons';
+
+
+
+
+SQL> select * from consultants where marks>=80 and client='ONS';
+     REGNO NAME       CLIENT     SUBJECT         MARKS
+---------- ---------- ---------- ---------- ----------
+         2 B          ONS        Java               80
+         4 D          ONS        Python             95
+
+
+SQL> select * from consultants where marks>=85 and client='ONS';
+     REGNO NAME       CLIENT     SUBJECT         MARKS
+---------- ---------- ---------- ---------- ----------
+         4 D          ONS        Python             95
+
+SQL> select client from consultants;
+
+CLIENT    
+----------
+IBM       
+ONS       
+IBM       
+ONS       
+
+SQL> select client from consultants where marks >=87 and marks<=92;
+
+CLIENT    
+----------
+IBM       
+
+SQL> 
+
+
+
+
+___________________________________________________
+
+SQL> select count(*) from sales where pid in (select pid from products where sid in(select sid from subcategory where cid=(select cid from category where description='food')));
+  COUNT(*)
+----------
+         3
+
+
+SQL> select sum(price) from sales where pid in (select pid from products where sid in(select sid from subcategory where cid=(select cid from category where description='food')));
+SUM(PRICE)
+----------
+       5.4
+
+SQL> 
+
+SQL> insert into bank values(
+  2  (select 'C'||'M'||lpad(nvl(max(substr(acc_no,3,3))+1,1),3,'0')
+  3* from bank where substr(acc_no,1,1)='C'), 'Harry');
+1 row inserted.
+
+
+
+SQL> insert into bank values(
+  2  (select 'S'||'M'||lpad(nvl(max(substr(acc_no,3,3))+1,1),3,'0')
+  3  from bank where substr(acc_no,1,1)='S'), 'Jerry')
+
+
+
+SQL> select employees.first_name, departments.department_name
+  2  from employees, departments
+  3* where employees.department_id=departments.department_id;

@@ -1,0 +1,12 @@
+Scenario Mapping Example;
+
+Persona - John G, the Highlands family man with a busy work schedule is looking to book his annual 
+family vacation with a small amount of late-evening downtime that he's found on a Friday night. He doesn't
+have the time to go to a high street travel agent, hence would like to complete the whole process 
+online and at home, in bed with a nice ginger tea. 
+He is also aware that, with his schedule, his family is only able to holiday together over the 
+Christmas period, and needs to be able to see the best available family-friendly destinations that are 
+highly rated for Christmas festivities. They've never had a Christmas abroad as a family, and so John is looking 
+to pre-book all their activities quickly and easily using as few websites as possible. He is looking for 
+a clean, modern website that is easy to navigate and provides a great, all-encompassing user experience. 
+

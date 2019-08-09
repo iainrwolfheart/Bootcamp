@@ -1,0 +1,247 @@
+
+_______
+
+
+SQL> insert into bank values(
+  2  (select 'C'||'M'||lpad(nvl(max(substr(acc_no,3,3))+1,1),3,'0')
+  3* from bank where substr(acc_no,1,1)='C'), 'Harry');
+1 row inserted.
+
+SQL> insert into bank values(
+  2  (select 'S'||'M'||lpad(nvl(max(substr(acc_no,3,3))+1,1),3,'0')
+  3  from bank where substr(acc_no,1,1)='S'), 'Jerry')
+______
+
+
+SQL> select employees.first_name, departments.department_name
+  2  from employees, departments
+  3* where employees.department_id=departments.department_id;
+______
+
+
+SQL> select name from products where pid=(
+select pid from sales group by pid having count(*)=(
+select max(count(*)) from sales group by pid));
+
+SQL> select description from subcategory where sid=
+(select sid from products group by sid having count(*)=
+(select max(count(*)) from products group by sid));
+______
+
+
+create or replace procedure FirstProcedure
+  2  is
+  3  begin
+  4  dbms_output.put_line('Hello, darkness ');
+  5  dbms_output.put_line('my old friend.');
+  6  end;
+  7* /
+
+set serveroutput on;
+call FirstProcedure();
+show errors;
+select * from user_source;
+
+
+SQL> create or replace procedure Addition
+  2  is
+  3  A number(3);
+  4  B number(3);
+  5  C number(3);
+  6  begin
+  7  A:=15;
+  8  B:=20;
+  9  C:=A+B;
+ 10  dbms_output.put_line('The result is');
+ 11  dbms_output.put_line(C);
+ 12  end;
+ 13  /
+_
+SQL> create or replace procedure Plus(A number, B number, C number)
+  2  is
+  3  result number(3);
+  4  begin
+  5  result:=A+B+C;
+  6  dbms_output.put_line('The result is '||result);
+  7  end;
+  8* /
+
+SQL> call Plus(3,6,7);The result is 16
+_
+SQL> create or replace procedure Record(N char, M number)
+  2  is
+  3  begin
+  4  insert into school values(N, M);
+  5  end;
+  6  /
+SQL> call Record('Dave', 55);
+Call completed.
+
+SQL> select * from school;
+
+NAME                      MARKS
+-------------------- ----------
+Bob                          84
+Jen                          92
+Derek                        43
+liv                         137
+Dave                         55
+_
+______
+
+SQL> create or replace procedure Empsearch(EmpNo number)
+  2  is
+  3  FName char(20);
+  4  LName char(20);
+  5  Sal number(6);
+  6  begin
+  7  select first_name, last_name, salary into FName, LName, Sal from employees
+  8  where employee_id=EmpNo;
+  9  dbms_output.put_line(FName);
+ 10  dbms_output.put_line(LName);
+ 11  dbms_output.put_line(Sal);
+ 12  end;
+ 13* /
+_
+
+SQL> create or replace procedure Newcat(dept char)
+  2  is
+  3  NewCID char(3);
+  4  begin
+  5  select nvl(max(cid)+1,0) into NewCID from category;
+  6  insert into category values(NewCID, dept);
+  7  end;
+  8* /
+Procedure NEWCAT compiled
+
+SQL> call Newcat('sport');
+
+Call completed.
+
+SQL> select * from category;
+
+       CID DESCRIPTION         
+---------- --------------------
+         1 food                
+         2 sports              
+         3 sport
+_
+
+create or replace procedure tesco_entry(newItemCategory char, newItemSubcategory char) is
+newItemCid number;
+newItemSid number;
+counter number;
+begin
+select count(*) into counter from category where description=newItemCategory;
+if(counter=0)
+then
+select nvl(max(cid)+1,1) into newItemCid from category;
+insert into category values(newItemCid, newItemCategory);
+else
+select cid into newItemCid from category where description = newItemCategory;
+end if;
+select count(*) into counter from subcategory where cid=newItemCid and description = newItemSubCategory;
+if (counter = 0)
+then
+select nvl(max(sid)+10,10) into newItemSid from subcategory where cid = newItemCid;
+insert into subcategory values(newItemCid, newItemSid, newItemSubcategory);
+else
+dbms_output.put_line('This category and subcategory combination already exists. No new record was created.');
+end if;
+end;
+/
+_
+
+SQL> create or replace function Tax(sal number) return number
+  2  is
+  3  Result number(4);
+  4  begin
+  5  Result:=sal/100*20;
+  6  return Result;
+  7  end;
+  8* /
+
+SQL> select first_name, last_name, salary, tax(salary), salary-tax(salary) as net_salary from employees;
+_
+SQL> create or replace function Tax(sal number) return number
+  2  is
+  3  Result number(4);
+  4  begin
+  5  Result:=sal/100*20;
+  6  if sal>=12500 then return Result;
+  7  end if;
+  8  return 0;
+  9  end;
+ 10* /
+_
+
+create or replace function CountSubCats(inputCId number)
+return number
+is
+output number(5);
+begin
+select count(*) into output from subcategory where inputCId = CId;
+return output;
+end;
+/
+
+create or replace function countproductsincat(inputCId number)
+return number
+is
+output number (5);
+begin
+select nvl(count(products.PId),0) into output from products,subcategory where subcategory.CId = inputCId and products.SId = Subcategory.SId;
+return output;
+end;
+_________
+
+TRIGGERS
+
+SQL> create or replace trigger ihateyou after delete on school
+  2  declare
+  3  begin
+  4  dbms_output.put_line('You have deleted a record from the school table');
+  5  end;
+  6* /
+Trigger IHATEYOU compiled
+_
+
+performs logic in 'begin' for each record deleted (or updated etc);
+SQL> create or replace trigger ihateyou after delete on school
+  2  for each row
+  3  begin
+  4  dbms_output.put_line('You have deleted a record from the school table');
+  5  end;
+  6* /
+_
+Create a backup table and then create a trigger that inserts rows from a table into the backup before they're deleted;
+SQL> create or replace trigger SchoolBU before delete on school
+  2  for each row
+  3  begin
+  4  insert into school_backup values(:old.name, :old.marks);
+  5  end;
+  6  /
+_
+Create backup table by mirroring;
+create table backup_school as select * from school;
+delete from backup_school; /* to remove data */
+_
+Change values during insert by creating trigger;
+SQL> create or replace trigger Givepass  before insert on school
+  2  for each row
+  3  begin
+  4  if :new.marks=58 or :new.marks=59 then :new.marks:=60;
+  5  end if;
+  6  :new.name:=upper(:new.name);
+  7  end;
+  8* /
+_
+Show user that deleted row and date of deletion by adding columns into backup table and..;
+SQL> create or replace trigger SchoolBU before delete on school
+  2  for each row
+  3  begin
+  4  insert into school_backup values(:old.name, :old.marks, user, sysdate);
+  5  end;
+  6* /
+
+

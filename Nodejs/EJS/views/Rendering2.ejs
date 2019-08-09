@@ -1,0 +1,13 @@
+<html>
+        <h1>SCORES</h1><br>
+        Name: <%= name %><br>
+        Physics: <%= phy %><br>
+        Chemistry: <%= che %><br>
+        Maths: <%= mat %><br>
+        <% 
+        let total = phy + che + mat;
+        let perc = total / 300 * 100; 
+        %>
+        Total: <%= total %><br>
+        Percentage: <%= perc %>
+    </html>
